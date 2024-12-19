@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Password Checker</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="checker-box">
+            <h2>Password Strength Checker</h2>
+            <div class="input-wrapper">
+                <input type="password" id="password" placeholder="Enter your password">
+                <button id="toggle-password">👁️</button>
+                <button id="submit-btn"><img src="./images/arrow.png" alt="Submit"></button>
+            </div>
+            <p id="message">Password Strength: <span id="strength"></span></p>
+            <div id="strength-bar">
+                <div class="bar"></div>
+            </div>
+            <ul class="criteria">
+                <li id="length" title="Password must be at least 8 characters long.">✔️ At least 8 characters</li>
+                <li id="uppercase" title="Password must contain at least one uppercase letter.">✔️ Contains an uppercase letter</li>
+                <li id="lowercase" title="Password must contain at least one lowercase letter.">✔️ Contains a lowercase letter</li>
+                <li id="number" title="Password must contain at least one number.">✔️ Contains a number</li>
+                <li id="special" title="Password must contain at least one special character (!@#$%^&*).">✔️ Contains a special character</li>
+            </ul>
+            <div class="actions">
+                <button id="copy-password">Copy Password</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+</html>
