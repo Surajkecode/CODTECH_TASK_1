@@ -150,7 +150,7 @@ If you have suggestions or fixes, feel free to submit a pull request. Please fol
 
 For questions or inquiries, feel free to contact us:
 
-- [LinkedIn Profile]: https://www.linkedin.com/in/suraj-borkute-512665341?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app
+ **[LinkedIn Profile]**: (https://www.linkedin.com/in/suraj-borkute-512665341)
 
 ---
 
