@@ -1,0 +1,216 @@
+/*THIS IS HTML FILE*/
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Password Checker</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="checker-box">
+            <h2>Password Strength Checker</h2>
+            <div class="input-wrapper">
+                <input type="password" id="password" placeholder="Enter your password">
+                <button id="toggle-password">👁️</button>
+                <button id="submit-btn"><img src="./images/arrow.png" alt="Submit"></button>
+            </div>
+            <p id="message">Password Strength: <span id="strength"></span></p>
+            <div id="strength-bar">
+                <div class="bar"></div>
+            </div>
+            <ul class="criteria">
+                <li id="length" title="Password must be at least 8 characters long.">✔️ At least 8 characters</li>
+                <li id="uppercase" title="Password must contain at least one uppercase letter.">✔️ Contains an uppercase letter</li>
+                <li id="lowercase" title="Password must contain at least one lowercase letter.">✔️ Contains a lowercase letter</li>
+                <li id="number" title="Password must contain at least one number.">✔️ Contains a number</li>
+                <li id="special" title="Password must contain at least one special character (!@#$%^&*).">✔️ Contains a special character</li>
+            </ul>
+            <div class="actions">
+                <button id="copy-password">Copy Password</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+</html>
+/*THIS IS CSS FILE*/
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background: url('./images/background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: white;
+}
+
+.container {
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    padding: 20px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #ffeb3b;
+}
+
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #333;
+    color: white;
+    outline: none;
+}
+
+button {
+    background: #ffeb3b;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #ffd700;
+}
+
+button img {
+    height: 20px;
+    width: 20px;
+}
+
+#message {
+    margin: 10px 0;
+}
+
+#strength-bar {
+    height: 10px;
+    width: 100%;
+    background: #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+#strength-bar .bar {
+    height: 100%;
+    width: 0;
+    background: #ff5925;
+    transition: width 0.4s ease, background 0.4s ease;
+}
+
+.criteria {
+    list-style: none;
+    text-align: left;
+    margin-top: 10px;
+}
+
+.criteria li {
+    margin: 5px 0;
+}
+
+.actions {
+    margin-top: 20px;
+}
+
+.actions button {
+    width: 100%;
+}
+
+/*THIS IS JAVASCRIPT FILE*/
+// Element Selectors
+const password = document.getElementById("password");
+const togglePassword = document.getElementById("toggle-password");
+const submitBtn = document.getElementById("submit-btn");
+const message = document.getElementById("message");
+const strength = document.getElementById("strength");
+const strengthBar = document.querySelector("#strength-bar .bar");
+const copyPassword = document.getElementById("copy-password");
+
+// Criteria
+const criteria = {
+    length: document.getElementById("length"),
+    uppercase: document.getElementById("uppercase"),
+    lowercase: document.getElementById("lowercase"),
+    number: document.getElementById("number"),
+    special: document.getElementById("special"),
+};
+
+// Strength Checking Function
+const checkStrength = (password) => {
+    let strengthValue = 0;
+
+    // Criteria Checks
+    const checks = {
+        length: password.length >= 8,
+        uppercase: /[A-Z]/.test(password),
+        lowercase: /[a-z]/.test(password),
+        number: /[0-9]/.test(password),
+        special: /[!@#$%^&*]/.test(password),
+    };
+
+    // Update UI for each criterion
+    for (const [key, value] of Object.entries(checks)) {
+        criteria[key].style.color = value ? "green" : "red";
+        if (value) strengthValue++;
+    }
+
+    // Update Strength Bar
+    const barColors = ["#ff5925", "yellow", "#26d730"];
+    const percentage = (strengthValue / 5) * 100;
+    strengthBar.style.width = `${percentage}%`;
+    strengthBar.style.background = barColors[Math.min(strengthValue - 1, barColors.length - 1)];
+
+    // Update Strength Text
+    const strengthLevels = ["Weak", "Medium", "Strong"];
+    strength.textContent = strengthLevels[Math.min(strengthValue - 1, strengthLevels.length - 1)] || "Weak";
+};
+
+// Event Listeners
+password.addEventListener("input", () => {
+    checkStrength(password.value);
+});
+
+togglePassword.addEventListener("click", () => {
+    const isPassword = password.type === "password";
+    password.type = isPassword ? "text" : "password";
+    togglePassword.textContent = isPassword ? "🙈" : "👁️";
+});
+
+submitBtn.addEventListener("click", () => {
+    alert(`Password Strength: ${strength.textContent}`);
+});
+
+copyPassword.addEventListener("click", () => {
+    navigator.clipboard.writeText(password.value).then(() => {
+        alert("Password copied to clipboard!");
+    });
+});
